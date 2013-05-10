@@ -47,24 +47,28 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Runtime functions
-(defun random-phrase (&optional (acc)
-                      &key (num 4) (words *words*) (max-word-length))
+(defun random-phrase (&key (acc) (num 4) (words *words*) (max-word-length 10)
+                        (min-word-length 0))
   "Generate a random phrase
      num: number of words in the phrase
      words: list of words to use
-     max-word-length: don't use any words longer than this"
+     max-word-length: don't use any words longer than this. Default 10
+     min-word-length: don't use any words shorter than this. Default 0"
   (if (equalp num 0)
       acc
       (let ((new-word (random-elt words)))
-        (if (and max-word-length (> (length new-word) max-word-length))
-            ;; Word is too long, try again
-            (random-phrase acc
+        (if (or (< (length new-word) min-word-length)
+                (> (length new-word) max-word-length))
+            ;; Word is too long or too short, try again
+            (random-phrase :acc acc
                            :num num :words words
-                           :max-word-length max-word-length)
+                           :max-word-length max-word-length
+                           :min-word-length min-word-length)
             ;; Word is fine
-            (random-phrase (cons new-word acc)
+            (random-phrase :acc (cons new-word acc)
                            :num (1- num) :words words
-                           :max-word-length max-word-length)))))
+                           :max-word-length max-word-length
+                           :min-word-length min-word-length)))))
 
 
 
