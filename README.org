@@ -1,1 +1,6 @@
 A random passphrase generator inspired by https://xkcd.com/936/
+
+It's not pretty yet, but it does what it says on the tin.  
+
+For now, run it by doing "sbcl --load random-passphrase.lisp".
+You'll probably want to put it behind Apache or whatever.
