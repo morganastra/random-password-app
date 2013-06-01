@@ -1,15 +1,15 @@
 ;;;; passphrase-generator.lisp
 ;;;;
 ;;;; A random passphrase generator inspired by https://xkcd.com/936/
-
-
-(defpackage :password-generator
-     (:use :cl :cl-who :hunchentoot :parenscript))
-
-
+(ql:quickload :restas)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; App initializiation
+(restas:define-module #:random-passphrase
+  (:use :cl :restas))
+
+(in-package #:random-passphrase)
+
 (defun all-satisfy (predicate seq)
   "Check if all elements of a sequence satisfy the predicate."
   (reduce #'(lambda (a b)
@@ -70,7 +70,16 @@
                            :max-word-length max-word-length
                            :min-word-length min-word-length)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Restas routes
+(define-route random-passphrase ("")
+  (prin1-to-string (random-phrase)))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Go!
+(initialize)
+(start '#:random-passphrase :port 8000)
 
 
 
