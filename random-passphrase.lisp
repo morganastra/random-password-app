@@ -70,10 +70,11 @@
                            :max-word-length max-word-length
                            :min-word-length min-word-length)))))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Restas routes
 (define-route random-passphrase ("")
-  (prin1-to-string (random-phrase)))
+  (format nil "~{~a~^ ~}" (random-phrase)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
